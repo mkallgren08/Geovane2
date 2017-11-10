@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
-import APINYT from "../../utils/APINYT"
+import APIGoogleMaps from "../../utils/APIGoogleMaps"
 import DeleteBtn from "../../components/DeleteBtn";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
@@ -9,10 +9,10 @@ import { Input, TextArea, FormBtn } from "../../components/Form";
 
 class Articles extends Component {
   state = {
-    searchterm : "",
-    numberofrecords : 5,
-    startyear : "",
-    endyear : "",
+    startLocation : "",
+    startState : "",
+    endCity : "",
+    endState : "",
     articles: [],
     savedarticles: []
   };
@@ -48,11 +48,10 @@ class Articles extends Component {
   handleFormSubmit = event => {
     // When the form is submitted, prevent its default behavior, get recipes update the recipes state
     event.preventDefault();
-    if (this.state.searchterm) {
-      APINYT.search(this.state.searchterm,
-                    this.state.numberofrecords,
-                    this.state.startyear,
-                    this.state.endyear
+    console.log("Click heard!")
+    if (this.state.startLocation) {
+      APIGoogleMaps.search(this.state.startLocation,
+                    this.state.endLocation,
                     )
         .then(res => { this.setState({ articles: res.data.response.docs });
         })
@@ -84,7 +83,8 @@ class Articles extends Component {
         <Row>
           <Col size="md-12">
             <Jumbotron>
-              <h1>New York Times Search</h1>
+              <h1>Geovane</h1> 
+              <h2>Directions and Weather in One</h2>
             </Jumbotron>
             <div className="panel panel-primary">
               <div className="panel-heading changeme">
@@ -92,31 +92,16 @@ class Articles extends Component {
               </div>
               <div className="panel-body">
                 <form>
-                  <label htmlFor="searchterm">Search Term:</label>
-                  <Input name="searchterm"
-                         value={this.state.searchterm}
+                  <label htmlFor="startLocation">Starting Location:</label>
+                  <Input name="startLocation"
+                         value={this.state.startLocation}
                          onChange={this.handleInputChange}
-                         placeholder="Search Term" />
-                  <label htmlFor="numberofrecords">Number of Records:</label>
-                  <select name="numberofrecords" 
-                          value={this.state.numberofrecords}
-                          onChange={this.handleInputChange}
-                          className="form-control" 
-                          id="num-records-select">
-                    <option value="1">1</option>
-						      	<option value="5" >5</option>
-                    <option value="10">10</option>
-                  </select>
-                  <label htmlFor="startyear">Start Year (optional - must be 4 digit year):</label>
-                  <Input name="startyear"
-                         value={this.state.startyear}
+                         placeholder="Washington, DC" />
+                  <label htmlFor="endLocation">Ending Location:</label>
+                  <Input name="endLocation"
+                         value={this.state.endLocation}
                          onChange={this.handleInputChange} 
-                         placeholder="Start Year" />
-                  <label htmlFor="endyear">End Year (optional - must be 4 digit year):</label>
-                  <Input name="endyear" 
-                         value={this.state.endyear}
-                         onChange={this.handleInputChange}
-                         placeholder="End Year" />
+                         placeholder="Charlotte, NC" />
                   <button type="submit" 
                           className="btn btn-default" 
                           onClick={this.handleFormSubmit}
@@ -160,7 +145,7 @@ class Articles extends Component {
           </Col>
         </Row>
         {/* Saved Articles */}
-        <Row>
+        {/*<Row>
           <Col size="md-12">
             
             <div className="panel panel-primary">
@@ -188,7 +173,7 @@ class Articles extends Component {
               </div>
             </div>
           </Col>
-        </Row>
+                </Row>*/}
       </Container>
     );
   }

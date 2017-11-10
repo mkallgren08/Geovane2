@@ -26,11 +26,18 @@ app.use(routes);
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
 // Connect to the Mongo DB
+
+let mongodbURI = process.env.MONGODB_URI || "mongodb://heroku_cwf2cqkx:8vpi8pekalrvhlae96mahc4ktq@ds153494.mlab.com:53494/heroku_cwf2cqkx"
+
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://heroku_cwf2cqkx:8vpi8pekalrvhlae96mahc4ktq@ds153494.mlab.com:53494/heroku_cwf2cqkx", {
+  mongodbURI, {
     useMongoClient: true
   }
 );
+
+mongoose.connection.on('connected', function () {  
+  console.log('Mongoose default connection open to ' + mongodbURI);
+}); 
 
 // Send every request to the React app
 // Define any API routes before this runs
