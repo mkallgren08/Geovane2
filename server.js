@@ -27,7 +27,7 @@ app.use(routes);
 mongoose.Promise = global.Promise;
 // Connect to the Mongo DB
 
-let mongodbURI = process.env.MONGODB_URI || "mongodb://heroku_cwf2cqkx:8vpi8pekalrvhlae96mahc4ktq@ds153494.mlab.com:53494/heroku_cwf2cqkx"
+let mongodbURI = "mongodb://localhost:27017" //process.env.MONGODB_URI //|| "mongodb://heroku_cwf2cqkx:8vpi8pekalrvhlae96mahc4ktq@ds153494.mlab.com:53494/heroku_cwf2cqkx"
 
 mongoose.connect(
   mongodbURI, {
